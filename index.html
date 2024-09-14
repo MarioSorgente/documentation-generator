@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Generator</title>
+    <style>
+        body, html {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 100%;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 2rem;
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentation Generator</h1>
+        <form id="docForm">
+            <textarea id="codeSnippet" rows="10" placeholder="Enter your code snippet here..."></textarea>
+            <textarea id="jiraTicket" rows="5" placeholder="Enter Jira ticket information here..."></textarea>
+            <button type="submit">Generate Documentation</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('docForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const codeSnippet = document.getElementById('codeSnippet').value;
+            const jiraTicket = document.getElementById('jiraTicket').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.textContent = 'Generating documentation...';
+
+            try {
+                const response = await fetch('https://your-vercel-function-url-here', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ codeSnippet, jiraTicket }),
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = data.documentation;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.textContent = 'An error occurred while generating documentation';
+            }
+        });
+    </script>
+</body>
+</html>
