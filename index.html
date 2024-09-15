@@ -67,6 +67,7 @@
                 <h1 class="headline">Automated Documentation Tool</h1>
                 <p class="subheadline">DevDok generates documentation from code snippets and Jira tickets for Notion and Confluence</p>
                 <button class="btn btn-primary btn-get-started" id="get-started">Get Started</button>
+                <button class="btn btn-success btn-get-started" id="subscribe">Subscribe Now</button>
             </div>
             <div class="col-md-6">
                <img src="https://MarioSorgente.github.io/documentation-generator/devdok_no_background.png" alt="Feature Image" class="feature-image">
@@ -101,5 +102,27 @@
             window.location.href = '/app'; // Replace with your application URL
         }
     </script>
+    <!-- Stripe JS -->
+<script src="https://js.stripe.com/v3/">
+    document.getElementById('subscribe').addEventListener('click', function () {
+    // Replace with your actual publishable key
+    var stripe = Stripe('pk_live_51NeIj2KSHQLNSiRLyVLVdVJp63LHzqpAQagNyjWARg2R9GyHH7aHTBnGSEuDOn6UkMdA8fEcxFxsCBHSescgM5bd00QcJwBBV0');
+
+    stripe.redirectToCheckout({
+        lineItems: [{ price: 'price_1PzIqmKSHQLNSiRLrZ4EIEiQ', quantity: 1 }],
+        mode: 'subscription',
+        successUrl: window.location.protocol + '//' + window.location.host + '/success.html',
+        cancelUrl: window.location.protocol + '//' + window.location.host + '/canceled.html',
+    })
+    .then(function (result) {
+        if (result.error) {
+            // Display error message to the user
+            alert(result.error.message);
+        }
+    });
+});
+
+</script>
+
 </body>
 </html>
