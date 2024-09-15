@@ -11,45 +11,66 @@
     <!-- Custom CSS -->
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #fff;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
-        .jumbotron {
-            background-color: #343a40;
-            color: white;
-            margin-top: 50px;
+        .navbar-brand {
+            font-weight: bold;
         }
-        .btn-custom {
-            background-color: #17a2b8;
-            color: white;
+        .main-section {
+            padding-top: 100px;
+            padding-bottom: 100px;
         }
-        .btn-custom:hover {
-            background-color: #138496;
-            color: white;
+        .headline {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .subheadline {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #555;
+        }
+        .btn-get-started {
+            margin-top: 30px;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+        }
+        .feature-image {
+            max-width: 100%;
+            height: auto;
         }
         footer {
-            margin-top: 50px;
             padding: 20px;
-            background-color: #343a40;
-            color: white;
+            background-color: #f8f9fa;
+            color: #555;
             text-align: center;
+            margin-top: 50px;
         }
     </style>
+    <!-- Google Sign-In API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <a class="navbar-brand" href="#">DevDok</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Optional navigation items can be added here -->
     </nav>
 
     <!-- Main Content -->
-    <div class="container">
-        <div class="jumbotron text-center">
-            <h1>Welcome to DevDok</h1>
-            <p>The ultimate tool for generating documentation seamlessly.</p>
-            <p>
-                <a href="#" class="btn btn-custom btn-lg" role="button" id="login-google">Login with Google</a>
-                <a href="#" class="btn btn-custom btn-lg" role="button" id="subscribe-stripe">Subscribe Now</a>
-            </p>
+    <div class="container main-section">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="headline">Welcome to DevDok</h1>
+                <p class="subheadline">The ultimate tool for generating documentation seamlessly.</p>
+                <button class="btn btn-primary btn-get-started" id="get-started">Get Started</button>
+            </div>
+            <div class="col-md-6">
+                <img src="your-image-url-here.jpg" alt="Feature Image" class="feature-image">
+            </div>
         </div>
     </div>
 
@@ -62,13 +83,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Google Sign-In API -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <!-- Stripe JS -->
-    <script src="https://js.stripe.com/v3/"></script>
     <!-- Custom JS -->
     <script>
-        // JavaScript code will go here
+        document.getElementById('get-started').addEventListener('click', function() {
+            // Initialize Google Sign-In
+            google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID',
+                callback: handleCredentialResponse
+            });
+            // Display the One Tap prompt
+            google.accounts.id.prompt();
+        });
+
+        function handleCredentialResponse(response) {
+            // Send the token to your backend for verification and session creation
+            // After successful authentication, redirect to the actual application
+            window.location.href = '/app'; // Replace with your application URL
+        }
     </script>
 </body>
 </html>
