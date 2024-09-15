@@ -123,6 +123,31 @@
 });
 
 </script>
+<form id="docForm">
+  <textarea id="codeSnippet" placeholder="Enter your code snippet"></textarea>
+  <input id="jiraTicket" placeholder="Enter Jira ticket number" />
+  <button type="submit">Generate Documentation</button>
+</form>
+
+<script>
+  document.getElementById('docForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const codeSnippet = document.getElementById('codeSnippet').value;
+    const jiraTicket = document.getElementById('jiraTicket').value;
+
+    const response = await fetch('/api/generate-doc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ codeSnippet, jiraTicket }),
+    });
+
+    const result = await response.json();
+    console.log(result);
+  });
+</script>
 
 </body>
 </html>
